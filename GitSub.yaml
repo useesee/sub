@@ -1,0 +1,10 @@
+proxies:
+  - {"name":"🇬🇧 英国05","type":"vmess","server":"82.198.246.97","port":180,"cipher":"auto","uuid":"d13fc2f5-3e05-4795-81eb-44143a09e552","alterId":0,"tls":false,"network":"tcp"}
+  - {name: "🇬🇧 英国00", server: 82.198.246.97, port: 180, type: vmess, uuid: d13fc2f5-3e05-4795-81eb-44143a09e552, alterId: 0, cipher: auto, tls: false}
+  - {name: 🌐 SurgeSock05, server: 192.168.1.5, port: 6153, type: socks5}
+  - {name: 🌐 SurgeSock06, server: 192.168.1.6, port: 6153, type: socks5}
+  - {name: 🌐 SurgeSock07, server: 192.168.1.7, port: 6153, type: socks5}
+  - {name: 🌐 SurgeSock08, server: 192.168.1.8, port: 6153, type: socks5}
+  - {name: 🌐 SurgeSock09, server: 192.168.1.9, port: 6153, type: socks5}
+  - {name: 🌐 SurgeSock62, server: 10.101.38.62, port: 6153, type: socks5}
+  - {"type":"hysteria2","name":"🇺🇸 US•hy2|35545","server":"udp.us-west-1.clawcloudrun.com","port":35545,"password":"KB0WjOFGPETOdOS","sni":"udp.us-west-1.clawcloudrun.com","skip-cert-verify":true,"tfo":false}
