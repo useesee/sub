@@ -1,0 +1,315 @@
+mixed-port: 0
+allow-lan: false
+mode: rule
+log-level: info
+
+
+# ================= DNS（增强稳定性）===========================
+dns:
+
+  enable: true
+  prefer-h3: true
+  use-hosts: true
+  use-system-hosts: true
+  respect-rules: true
+
+  # 双栈解析（IPV4/IPV6）
+  ipv6: true
+  # Fake-IP 模式（性能最优）
+  enhanced-mode: fake-ip
+  # Fake-IP 范围（官方推荐）
+  fake-ip-range: 198.18.0.1/16
+
+  # 根 DNS（用IP），只用于解析 nameserver / fallback 里的“DoH 域名”
+  default-nameserver:
+    - 223.5.5.5
+    - 119.29.29.29
+    - "2400:3200::1"
+    - "2402:4e00::"
+
+  # 工作 DNS（用DoH域名），用来解析国内网站域名
+  nameserver:
+    - https://dns.alidns.com/dns-query
+    - https://doh.pub/dns-query
+    - https://[2400:3200::1]/dns-query   # 阿里 IPv6 DNS
+    - https://[2402:4e00::]/dns-query    # 腾讯 IPv6 DNS
+
+  # 🌍 国外纠错解析，当 nameserver 结果“可疑”时，启用 fallback（纠错 + 去污染 + 广告过滤）
+  fallback:
+    - https://cloudflare-dns.com/dns-query
+    - https://dns.google/dns-query
+    - https://1.1.1.1/dns-query
+    - https://8.8.8.8/dns-query
+    - https://[2606:4700:4700::1111]/dns-query
+    - https://[2001:4860:4860::8888]/dns-query
+
+  # 污染检测机制（CN 地址不重新解析）
+  fallback-filter:
+    geoip: true
+    geoip-code: CN
+    # 污染特征 IP（关键）
+    ipcidr:
+      - 240.0.0.0/4
+      - 0.0.0.0/32
+    ipcidr6:
+      - ::/128
+      - ::1/128
+      - fc00::/7        # ULA
+      - fe80::/10       # link-local
+
+  # 代理服务器解析（避免污染）
+  proxy-server-nameserver:
+    - https://cloudflare-dns.com/dns-query
+    - https://dns.google/dns-query
+    - https://1.1.1.1/dns-query
+    - https://8.8.8.8/dns-query
+    - https://[2606:4700:4700::1111]/dns-query
+    - https://[2001:4860:4860::8888]/dns-query
+
+  # 国内强制走国内 DNS
+  nameserver-policy:
+    # 广告返回空结果
+    "geosite:category-ads-all": rcode://success
+    # 国内解析直接用以下 DNS
+    "geosite:cn,private":
+      - https://dns.alidns.com/dns-query
+      - https://doh.pub/dns-query
+      - https://[2400:3200::1]/dns-query
+      - https://[2402:4e00::]/dns-query
+
+  # 🔧 稳定性白名单（这些域名不走 fake-ip，直接真实解析）
+  fake-ip-filter:
+    - "localhost"
+    - "*.lan"
+    - "*.local"
+
+
+# ================= 代理订阅 ==================================
+proxy-providers:
+
+  FreeSubSvr:
+    type: http
+    url: "https://sub.jqwebs.cc/api/file/mihomo"
+    path: ./providers/proxies/FreeSubSvr.yaml
+    interval: 0
+
+  GitSubSvr:
+    type: http
+    # url: "https://sub.store/download/collection/aaas?target=V2Ray"
+    url: "https://raw.githubusercontent.com/useesee/sub/master/GitSub.yaml"
+    path: ./providers/proxies/GitSubSvr.yaml
+    interval: 0
+
+
+# ================= 代理组 ====================================
+proxy-groups:
+
+  - name: 🔘 环球飞行
+    include-all: false
+    type: select
+    use:
+      - FreeSubSvr
+      - GitSubSvr
+    filter: ^((?!解锁|群|免费|网易|试用|过期).)*$
+    proxies:
+      - 🚁 天机智由
+      - 🦋 智由星闪
+      - ✨ 扶光星汉
+      - 🎡 负载均衡
+      - DIRECT
+
+  # === 故障切换 ===
+  - name: 🚁 天机智由
+    type: fallback
+    use:
+      - FreeSubSvr
+      - GitSubSvr
+    filter: ^((?!解锁|群|免费|网易|试用|过期).)*$
+    url: http://www.gstatic.com/generate_204
+    interval: 300
+    tolerance: 50
+
+  # === 延时切换 ===
+  - name: 🦋 智由星闪
+    type: url-test
+    use:
+      - FreeSubSvr
+    # filter: (?i)us|united states|america|美
+    url: http://www.gstatic.com/generate_204
+    interval: 300
+    tolerance: 50
+
+  # === 延时切换 ===
+  - name: ✨ 扶光星汉
+    type: url-test
+    use:
+      - GitSubSvr
+    # filter: (?i)hk|hongkong|港
+    url: http://www.gstatic.com/generate_204
+    interval: 300
+    tolerance: 50
+
+  - name: 🐟 漏网之鱼
+    type: select
+    proxies:
+      - 🎯 全球直连
+      - 🔘 环球飞行
+
+  - name: 💠 三方跳动
+    type: select
+    proxies:
+      - 🎯 全球直连
+      - 🔘 环球飞行
+
+  - name: 🤖 人工智能
+    type: select
+    use:
+      - FreeSubSvr
+      - GitSubSvr
+    proxies:
+      - 🔘 环球飞行
+
+  - name: Ⓜ️ 微软服务
+    type: select
+    proxies:
+      - 🎯 全球直连
+      - 🔘 环球飞行
+
+  - name: 🎡 负载均衡
+    type: load-balance
+    use:
+      - FreeSubSvr
+      - GitSubSvr
+    url: http://www.gstatic.com/generate_204
+    interval: 300
+    tolerance: 50
+
+  - name: 🎯 全球直连
+    type: select
+    proxies:
+      - DIRECT
+      - 🔘 环球飞行
+
+  - name: 🛑 全球拦截
+    type: select
+    proxies:
+      - REJECT
+      - 🎯 全球直连
+
+
+# ================= 规则订阅 ==================================
+rule-providers:
+
+  cusDirect:
+    type: http
+    format: text
+    behavior: classical
+    url: https://raw.githubusercontent.com/useesee/sub/master/cusDirect.list
+    path: ./providers/rules/cusDirect.list
+    interval: 0
+
+  cusOth:
+    type: http
+    format: text
+    behavior: classical
+    url: https://raw.githubusercontent.com/useesee/sub/master/cusOth.list
+    path: ./providers/rules/cusOth.list
+    interval: 0
+
+
+# ================= 规则 =====================================
+rules:
+
+  # =========================================================
+  # 0️⃣0️⃣ 局域网（必须最前）
+  # =========================================================
+  - IP-CIDR,127.0.0.0/8,🎯 全球直连
+  - IP-CIDR,10.0.0.0/8,🎯 全球直连,no-resolve
+  - IP-CIDR,172.16.0.0/12,🎯 全球直连,no-resolve
+  - IP-CIDR,192.168.0.0/16,🎯 全球直连,no-resolve
+  - IP-CIDR6,fc00::/7,🎯 全球直连,no-resolve
+
+
+  # =========================================================
+  # 0️⃣ 自定义（灵活调整）
+  # =========================================================
+  - RULE-SET,cusDirect,🎯 全球直连
+  - RULE-SET,cusOth,💠 三方跳动
+  # - RULE-SET,cusDomestic,🇨🇳 华夏之声
+
+
+  # =========================================================
+  # 1️⃣ 广告拦截（最高优先级）
+  # =========================================================
+  # 🔥 全量广告库
+  - GEOSITE,category-ads-all,🛑 全球拦截
+  # # 补强（保留少量 rule-provider）
+  # - RULE-SET,BanEasyList,🛑 全球拦截
+  # - RULE-SET,BanEasyPrivacy,🛑 全球拦截
+
+
+  # =========================================================
+  # 2️⃣ 精确规则（高优先级，必须在最前）
+  # =========================================================
+
+  # 域名层的“私有网络”
+  - GEOSITE,private,🎯 全球直连
+
+  # 🤖 AI 服务（精确优先）
+  # - RULE-SET,AI,🤖 人工智能
+  - GEOSITE,openai,🤖 人工智能
+  # - RULE-SET,OpenAi,🤖 人工智能
+
+  # Ⓜ️ Microsoft 中国服务
+  - GEOSITE,onedrive,Ⓜ️ 微软服务
+  - GEOSITE,microsoft@cn,Ⓜ️ 微软服务
+  # # 🍎 Apple 中国服务
+  # - GEOSITE,apple-cn,🍎 苹果服务
+
+  # 💻 开发（GitHub）
+  - GEOSITE,github,🔘 环球飞行
+  # 🎬 YouTube 服务
+  - GEOSITE,youtube,🔘 环球飞行
+  # 🌐 Google 生态（含API / Gemini底层）
+  - GEOSITE,google,🔘 环球飞行
+
+  # # 📡 Telegram（高动态服务，三层防漏）
+  # - GEOSITE,telegram,🔘 环球飞行
+  # 📡 Telegram 官方IP段（关键补漏）
+  - GEOIP,telegram,🔘 环球飞行
+  # - IP-CIDR,149.154.160.0/20,🔘 环球飞行,no-resolve
+  # - IP-CIDR,91.108.4.0/22,🔘 环球飞行,no-resolve
+
+
+  # =========================================================
+  # 3️⃣ 国内 / 国外分流
+  # =========================================================
+  - GEOSITE,cn,🎯 全球直连  # 🇨🇳 中国网站（大范围）
+  - GEOSITE,geolocation-!cn,🔘 环球飞行  # 🌍 非中国流量
+
+
+  # =========================================================
+  # 4️⃣ ASN 精细控制（CDN / 云服务修正，核心优化：防 CDN 误判）
+  # =========================================================
+  # 🌐 Google 网络（YouTube / Gemini / API）
+  - IP-ASN,15169,🔘 环球飞行  # Google LLC，
+  # ☁️ Cloudflare CDN（大量国外网站/CDN加速网络）
+  - IP-ASN,13335,🔘 环球飞行  # Cloudflare, Inc.
+  # ☁️ Amazon AWS（OpenAI / API / 流媒体后端）
+  - IP-ASN,16509,🔘 环球飞行  # Amazon.com, Inc.
+  # ☁️ Microsoft Azure（Copilot / Office / Bing）
+  - IP-ASN,8075,🔘 环球飞行   # Microsoft Corporation
+  # # 📡 Telegram 官方
+  # - IP-ASN,62041,🔘 环球飞行  # Telegram Messenger Inc.
+
+
+  # =========================================================
+  # 5️⃣ IP 兜底
+  # =========================================================
+  - GEOIP,CN,🎯 全球直连  # 🇨🇳 国内 IP
+
+
+  # =========================================================
+  # 6️⃣ 最终兜底
+  # =========================================================
+  - MATCH,🐟 漏网之鱼
