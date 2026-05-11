@@ -1,0 +1,22 @@
+# game
+DOMAIN-SUFFIX,epicgames.com
+
+# others
+DOMAIN-KEYWORD,ipaspot
+DOMAIN-KEYWORD,sotv
+
+# 程序软件
+DOMAIN-KEYWORD,macked
+DOMAIN-KEYWORD,obsidian
+DOMAIN-KEYWORD,digit77
+DOMAIN-KEYWORD,masuit
+DOMAIN-KEYWORD,jetbrains.com
+DOMAIN-SUFFIX,deepl.com
+
+# Video
+DOMAIN-KEYWORD,netfly
+DOMAIN-KEYWORD,nfyingshi
+DOMAIN-KEYWORD,ncat21
+DOMAIN-KEYWORD,52netflix
+DOMAIN-SUFFIX,emby.wtf
+DOMAIN-SUFFIX,term.wtf
