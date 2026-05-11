@@ -96,7 +96,7 @@ proxy-providers:
   GitSubSvr:
     type: http
     # url: "https://sub.store/download/collection/aaas?target=V2Ray"
-    url: "https://raw.githubusercontent.com/useesee/sub/master/GitSub.yaml"
+    url: "https://raw.githubusercontent.com/useesee/sub/main/GitSub.yaml"
     path: ./providers/proxies/GitSubSvr.yaml
     interval: 0
 
@@ -204,7 +204,7 @@ rule-providers:
     type: http
     format: text
     behavior: classical
-    url: https://raw.githubusercontent.com/useesee/sub/master/cusDirect.list
+    url: https://raw.githubusercontent.com/useesee/sub/main/cusDirect.list
     path: ./providers/rules/cusDirect.list
     interval: 0
 
@@ -212,7 +212,7 @@ rule-providers:
     type: http
     format: text
     behavior: classical
-    url: https://raw.githubusercontent.com/useesee/sub/master/cusOth.list
+    url: https://raw.githubusercontent.com/useesee/sub/main/cusOth.list
     path: ./providers/rules/cusOth.list
     interval: 0
 
