@@ -134,7 +134,7 @@ proxy-groups:
     type: url-test
     use:
       - FreeSubSvr
-    # filter: (?i)us|united states|america|美
+    filter: (?i)us|sg|hk|united states|america|美
     url: http://www.gstatic.com/generate_204
     interval: 300
     tolerance: 50
