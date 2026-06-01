@@ -1,4 +1,4 @@
-mixed-port: 0
+mixed-port: 1688
 allow-lan: false
 mode: rule
 log-level: info
