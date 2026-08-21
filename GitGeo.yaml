@@ -97,7 +97,7 @@ proxy-providers:
     type: http
     # url: "https://sub.store/download/collection/aaas?target=V2Ray"
     url: "https://raw.githubusercontent.com/Pawdroid/Free-servers/main/sub"
-    path: ./providers/proxies/GitSubSvr.yam
+    path: ./providers/proxies/GitSubSvr.yaml
     interval: 0
 
 
