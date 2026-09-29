@@ -36,12 +36,12 @@ dns:
 
   # 🌍 国外纠错解析，当 nameserver 结果“可疑”时，启用 fallback（纠错 + 去污染 + 广告过滤）
   fallback:
-    - https://cloudflare-dns.com/dns-query
-    - https://dns.google/dns-query
-    - https://1.1.1.1/dns-query
-    - https://8.8.8.8/dns-query
-    - https://[2606:4700:4700::1111]/dns-query
-    - https://[2001:4860:4860::8888]/dns-query
+    - "https://cloudflare-dns.com/dns-query#🔘 环球飞行"
+    - "https://dns.google/dns-query#🔘 环球飞行"
+    - "https://[2606:4700:4700::1111]/dns-query#🔘 环球飞行"
+    - "https://[2001:4860:4860::8888]/dns-query#🔘 环球飞行"
+    # - https://1.1.1.1/dns-query
+    # - https://8.8.8.8/dns-query
 
   # 污染检测机制（CN 地址不重新解析）
   fallback-filter:
@@ -61,10 +61,10 @@ dns:
   proxy-server-nameserver:
     - https://cloudflare-dns.com/dns-query
     - https://dns.google/dns-query
-    - https://1.1.1.1/dns-query
-    - https://8.8.8.8/dns-query
     - https://[2606:4700:4700::1111]/dns-query
     - https://[2001:4860:4860::8888]/dns-query
+    # - https://1.1.1.1/dns-query
+    # - https://8.8.8.8/dns-query
 
   # 国内强制走国内 DNS
   nameserver-policy:
