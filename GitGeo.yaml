@@ -36,10 +36,10 @@ dns:
 
   # 🌍 国外纠错解析，当 nameserver 结果“可疑”时，启用 fallback（纠错 + 去污染 + 广告过滤）
   fallback:
-    - "https://cloudflare-dns.com/dns-query#🔘 环球飞行"
-    - "https://dns.google/dns-query#🔘 环球飞行"
-    - "https://[2606:4700:4700::1111]/dns-query#🔘 环球飞行"
-    - "https://[2001:4860:4860::8888]/dns-query#🔘 环球飞行"
+    - https://cloudflare-dns.com/dns-query
+    - https://dns.google/dns-query
+    - https://[2606:4700:4700::1111]/dns-query
+    - https://[2001:4860:4860::8888]/dns-query
     # - https://1.1.1.1/dns-query
     # - https://8.8.8.8/dns-query
 
