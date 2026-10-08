@@ -8,7 +8,7 @@ log-level: info
 dns:
 
   enable: true
-  prefer-h3: false                # respect-rules 已开启，官方不推荐再配 prefer-h3
+  prefer-h3: false                # respect-rules 已开启，则官方不推荐再配 prefer-h3
   use-hosts: true
   use-system-hosts: true
   respect-rules: true
