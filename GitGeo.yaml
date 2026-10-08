@@ -107,9 +107,9 @@ proxy-providers:
 
 
 # ================= 本地代理 ==================================
-proxies:
-  - {name: 🌐 SurgeSock68, server: 10.101.39.68, port: 6153, type: socks5}
-  - {name: 🌐 SurgeSock18, server: 192.168.1.18, port: 6153, type: socks5}
+# proxies:
+#   - {name: 🌐 SurgeSock68, server: 10.101.39.68, port: 6153, type: socks5}
+#   - {name: 🌐 SurgeSock18, server: 192.168.1.18, port: 6153, type: socks5}
 
 
 # ================= 代理组 ====================================
