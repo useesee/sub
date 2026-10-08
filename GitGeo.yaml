@@ -93,7 +93,7 @@ proxy-providers:
       url: https://www.gstatic.com/generate_204
       interval: 300
 
-  # Github免费节点
+  # 互联网免费节点
   SaasSubSvr:
     type: http
     # url: "https://sub.store/download/collection/aaas?target=V2Ray"
@@ -107,9 +107,9 @@ proxy-providers:
 
 
 # ================= 本地代理 ==================================
-# proxies:
-#   - {name: 🌐 SurgeSock68, server: 10.101.39.68, port: 6153, type: socks5}
-#   - {name: 🌐 SurgeSock18, server: 192.168.1.18, port: 6153, type: socks5}
+proxies:
+  - {name: 🌐 SurgeSock68, server: 10.101.39.68, port: 6153, type: socks5}
+  - {name: 🌐 SurgeSock18, server: 192.168.1.18, port: 6153, type: socks5}
 
 
 # ================= 代理组 ====================================
@@ -121,7 +121,7 @@ proxy-groups:
     type: select
     use:
       #- FreeSubSvr
-      - GitSubSvr
+      # - GitSubSvr
       - SaasSubSvr
     exclude-filter: "(?i)解锁|群|免费|网易|试用|过期|Tele"
     proxies:
@@ -136,7 +136,7 @@ proxy-groups:
     type: url-test
     use:
       #- FreeSubSvr
-      - GitSubSvr
+      # - GitSubSvr
       - SaasSubSvr
     filter: ^((?i)(?!解锁|群|免费|网易|试用|过期|Tele).)*$
     tolerance: 50
@@ -145,7 +145,7 @@ proxy-groups:
   - name: ✨ 扶光星汉
     type: fallback
     use:
-      - GitSubSvr
+      # - GitSubSvr
       - SaasSubSvr
     # filter: (?i)hk|hongkong|港
 
@@ -173,7 +173,7 @@ proxy-groups:
     type: select
     use:
       - FreeSubSvr
-      - GitSubSvr
+      # - GitSubSvr
       - SaasSubSvr
     proxies:
       - 🔘 环球飞行
@@ -189,7 +189,7 @@ proxy-groups:
     type: load-balance
     use:
       - FreeSubSvr
-      - GitSubSvr
+      # - GitSubSvr
       - SaasSubSvr
     exclude-filter: "(?i)解锁|群|免费|网易|试用|过期|Tele"
     strategy: consistent-hashing
