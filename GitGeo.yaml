@@ -38,7 +38,7 @@ dns:
   fallback-filter:  # 污染检测机制（CN 地址不重新解析）
     geoip: true
     geoip-code: CN
-    geosite: gfw
+    geosite: ["gfw"]
     ipcidr:  # 污染特征 IP（关键）
       - 240.0.0.0/4
       - 0.0.0.0/32
