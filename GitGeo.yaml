@@ -98,6 +98,13 @@ proxy-providers:
   GitSubSvr:
     type: http
     # url: "https://sub.store/download/collection/aaas?target=V2Ray"
+    url: "https://raw.githubusercontent.com/useesee/sub/main/GitSub.yaml"
+    path: ./providers/proxies/GitSubSvr.yaml
+    interval: 0
+
+  SaasSubSvr:
+    type: http
+    # url: "https://sub.store/download/collection/aaas?target=V2Ray"
     url: "https://raw.githubusercontent.com/Pawdroid/Free-servers/main/sub"
     path: ./providers/proxies/GitSubSvr.yaml
     interval: 0
@@ -112,6 +119,7 @@ proxy-groups:
     use:
       - FreeSubSvr
       - GitSubSvr
+      - SaasSubSvr
     filter: ^((?!解锁|群|免费|网易|试用|过期).)*$
     proxies:
       - 🚁 天机智由
@@ -126,6 +134,7 @@ proxy-groups:
     use:
       - FreeSubSvr
       - GitSubSvr
+      - SaasSubSvr
     filter: ^((?!解锁|群|免费|网易|试用|过期).)*$
     url: http://www.gstatic.com/generate_204
     interval: 300
@@ -146,6 +155,7 @@ proxy-groups:
     type: url-test
     use:
       - GitSubSvr
+      - SaasSubSvr
     # filter: (?i)hk|hongkong|港
     url: http://www.gstatic.com/generate_204
     interval: 300
