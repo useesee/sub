@@ -8,7 +8,7 @@ log-level: info
 dns:
 
   enable: true
-  prefer-h3: true
+  prefer-h3: false                # respect-rules 已开启，官方不推荐再配 prefer-h3
   use-hosts: true
   use-system-hosts: true
   respect-rules: true
@@ -38,7 +38,6 @@ dns:
   fallback-filter:  # 污染检测机制（CN 地址不重新解析）
     geoip: true
     geoip-code: CN
-    geosite: ["gfw"]
     ipcidr:  # 污染特征 IP（关键）
       - 240.0.0.0/4
       - 0.0.0.0/32
@@ -76,6 +75,10 @@ proxy-providers:
     url: "https://sub.jqwebs.cc/api/file/mihomo"
     path: ./providers/proxies/FreeSubSvr.yaml
     interval: 0
+    health-check:
+      enable: true
+      url: https://www.gstatic.com/generate_204
+      interval: 300
 
   GitSubSvr:
     type: http
@@ -83,6 +86,10 @@ proxy-providers:
     url: "https://raw.githubusercontent.com/useesee/sub/main/GitSub.yaml"
     path: ./providers/proxies/GitSubSvr.yaml
     interval: 0
+    health-check:
+      enable: true
+      url: https://www.gstatic.com/generate_204
+      interval: 300
 
   SaasSubSvr:
     type: http
@@ -90,6 +97,10 @@ proxy-providers:
     url: "https://raw.githubusercontent.com/Pawdroid/Free-servers/main/sub"
     path: ./providers/proxies/SaasSubSvr.yaml
     interval: 0
+    health-check:
+      enable: true
+      url: https://www.gstatic.com/generate_204
+      interval: 300
 
 
 # ================= 本地代理 ==================================
@@ -103,13 +114,13 @@ proxy-groups:
 
   # === 规则选择 ===
   - name: 🔘 环球飞行
-    include-all: true
+    include-all-proxies: true
     type: select
     use:
       #- FreeSubSvr
       - GitSubSvr
       - SaasSubSvr
-    filter: ^((?i)(?!解锁|群|免费|网易|试用|过期|Tele).)*$
+    exclude-filter: "(?i)解锁|群|免费|网易|试用|过期|Tele"
     proxies:
       - 🚁 天机智由
       - ✨ 扶光星汉
@@ -119,28 +130,21 @@ proxy-groups:
 
   # === 延时切换所有节点 ===
   - name: 🚁 天机智由
-    include-all: false
     type: url-test
     use:
       #- FreeSubSvr
       - GitSubSvr
       - SaasSubSvr
     filter: ^((?i)(?!解锁|群|免费|网易|试用|过期|Tele).)*$
-    url: http://www.gstatic.com/generate_204
-    interval: 300
     tolerance: 50
 
   # === 故障切换所有节点 ===
   - name: ✨ 扶光星汉
-    include-all: false
     type: fallback
     use:
       - GitSubSvr
       - SaasSubSvr
     # filter: (?i)hk|hongkong|港
-    url: http://www.gstatic.com/generate_204
-    interval: 300
-    tolerance: 50
 
   # === 延时切换FreeSubSvr ===
   - name: 🦋 智由星闪
@@ -148,8 +152,6 @@ proxy-groups:
     use:
       - FreeSubSvr
     filter: (?i)us|sg|hk|united states|america|美
-    url: http://www.gstatic.com/generate_204
-    interval: 300
     tolerance: 50
 
   - name: 🐟 漏网之鱼
@@ -172,6 +174,7 @@ proxy-groups:
       - SaasSubSvr
     proxies:
       - 🔘 环球飞行
+    exclude-filter: "(?i)解锁|群|免费|网易|试用|过期|Tele"
 
   - name: Ⓜ️ 微软服务
     type: select
@@ -185,9 +188,8 @@ proxy-groups:
       - FreeSubSvr
       - GitSubSvr
       - SaasSubSvr
-    url: http://www.gstatic.com/generate_204
-    interval: 300
-    tolerance: 50
+    exclude-filter: "(?i)解锁|群|免费|网易|试用|过期|Tele"
+    strategy: consistent-hashing
 
   - name: 🎯 全球直连
     type: select
@@ -233,7 +235,7 @@ rules:
   - IP-CIDR6,fc00::/7,🎯 全球直连,no-resolve
 
 
-  # 0️⃣ 自定义（灵活调整）=======================================
+  # 0️⃣ 自定义覆盖规则（最高优先级）===============================
   - RULE-SET,cusDirect,🎯 全球直连
   - RULE-SET,cusOth,💠 三方跳动
   # - RULE-SET,cusDomestic,🇨🇳 华夏之声
@@ -249,15 +251,16 @@ rules:
   # 2️⃣ 精确规则（高优先级，必须在最前）===========================
   - GEOSITE,private,🎯 全球直连       # 域名层的“私有网络”
 
-  - GEOSITE,openai,🤖 人工智能        # 🤖 AI 服务（精确优先）
+  - GEOSITE,category-ai-!cn,🤖 人工智能   # 🤖 AI 服务（精确优先）
+  # - GEOSITE,openai,🤖 人工智能      # 🤖 AI 服务（精确优先）
   # - RULE-SET,AI,🤖 人工智能         # 🤖 AI 服务（精确优先）
   # - RULE-SET,OpenAi,🤖 人工智能     # 🤖 AI 服务（精确优先）
 
+  - GEOSITE,github,🔘 环球飞行        # 💻 开发（GitHub）
   - GEOSITE,onedrive,Ⓜ️ 微软服务      # Ⓜ️ OneDrive 中国服务
   - GEOSITE,microsoft@cn,Ⓜ️ 微软服务  # Ⓜ️ Microsoft 中国服务
   # - GEOSITE,apple-cn,🍎 苹果服务    # 🍎 Apple 中国服务
 
-  - GEOSITE,github,🔘 环球飞行        # 💻 开发（GitHub）
   - GEOSITE,youtube,🔘 环球飞行       # 🎬 YouTube 服务
   - GEOSITE,google,🔘 环球飞行        # 🌐 Google 生态（含API / Gemini底层）
 
