@@ -122,7 +122,7 @@ proxy-groups:
       - FreeSubSvr
       - GitSubSvr
       - SaasSubSvr
-    filter: ^((?!解锁|群|免费|网易|试用|过期).)*$
+    filter: ^(((?i)?!解锁|群|免费|网易|试用|过期|Tele).)*$
     proxies:
       - 🚁 天机智由
       - 🦋 智由星闪
@@ -137,7 +137,7 @@ proxy-groups:
       - FreeSubSvr
       - GitSubSvr
       - SaasSubSvr
-    filter: ^((?!解锁|群|免费|网易|试用|过期).)*$
+    filter: ^(((?i)?!解锁|群|免费|网易|试用|过期|Tele).)*$
     url: http://www.gstatic.com/generate_204
     interval: 300
     tolerance: 50
