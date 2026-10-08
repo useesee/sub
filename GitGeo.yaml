@@ -70,6 +70,7 @@ dns:
 # ================= 代理订阅 ==================================
 proxy-providers:
 
+  # 金钱世界节点
   FreeSubSvr:
     type: http
     url: "https://sub.jqwebs.cc/api/file/mihomo"
@@ -80,6 +81,7 @@ proxy-providers:
       url: https://www.gstatic.com/generate_204
       interval: 300
 
+  # 自定义节点
   GitSubSvr:
     type: http
     # url: "https://sub.store/download/collection/aaas?target=V2Ray"
@@ -91,6 +93,7 @@ proxy-providers:
       url: https://www.gstatic.com/generate_204
       interval: 300
 
+  # Github免费节点
   SaasSubSvr:
     type: http
     # url: "https://sub.store/download/collection/aaas?target=V2Ray"
@@ -207,6 +210,7 @@ proxy-groups:
 # ================= 规则订阅 ==================================
 rule-providers:
 
+  # 自定义直连
   cusDirect:
     type: http
     format: text
@@ -215,6 +219,7 @@ rule-providers:
     path: ./providers/rules/cusDirect.list
     interval: 0
 
+  # 自定义三方跳动
   cusOth:
     type: http
     format: text
@@ -234,19 +239,16 @@ rules:
   - IP-CIDR,192.168.0.0/16,🎯 全球直连,no-resolve
   - IP-CIDR6,fc00::/7,🎯 全球直连,no-resolve
 
-
   # 0️⃣ 自定义覆盖规则（最高优先级）===============================
   - RULE-SET,cusDirect,🎯 全球直连
   - RULE-SET,cusOth,💠 三方跳动
   # - RULE-SET,cusDomestic,🇨🇳 华夏之声
-
 
   # 1️⃣ 广告拦截（最高优先级）====================================
   - GEOSITE,category-ads-all,🛑 全球拦截  # 🔥 全量广告库
   # # 补强（保留少量 rule-provider）
   # - RULE-SET,BanEasyList,🛑 全球拦截
   # - RULE-SET,BanEasyPrivacy,🛑 全球拦截
-
 
   # 2️⃣ 精确规则（高优先级，必须在最前）===========================
   - GEOSITE,private,🎯 全球直连       # 域名层的“私有网络”
@@ -263,17 +265,14 @@ rules:
 
   - GEOSITE,youtube,🔘 环球飞行       # 🎬 YouTube 服务
   - GEOSITE,google,🔘 环球飞行        # 🌐 Google 生态（含API / Gemini底层）
-
   # - GEOSITE,telegram,🔘 环球飞行    # 📡 Telegram（高动态服务，三层防漏）
   - GEOIP,telegram,🔘 环球飞行        # 📡 Telegram 官方IP段（关键补漏）
   # - IP-CIDR,149.154.160.0/20,🔘 环球飞行,no-resolve
   # - IP-CIDR,91.108.4.0/22,🔘 环球飞行,no-resolve
 
-
   # 3️⃣ 国内 / 国外分流 ========================================
   - GEOSITE,cn,🎯 全球直连                 # 🇨🇳 中国网站（大范围）
   - GEOSITE,geolocation-!cn,🔘 环球飞行    # 🌍 非中国流量
-
 
   # 4️⃣ ASN 精细控制（CDN/云服务修正，防CDN误判）==================
   - IP-ASN,15169,🔘 环球飞行  # Google LLC，               # 🌐 Google 网络（YouTube / Gemini / API）
@@ -282,10 +281,8 @@ rules:
   - IP-ASN,8075,🔘 环球飞行   # Microsoft Corporation      # ☁️ Microsoft Azure（Copilot / Office / Bing）
   # - IP-ASN,62041,🔘 环球飞行  # Telegram Messenger Inc.  # 📡 Telegram 官方
 
-
   # 5️⃣ IP 兜底 ==============================================
   - GEOIP,CN,🎯 全球直连  # 🇨🇳 国内 IP
-
 
   # 6️⃣ 最终兜底===============================================
   - MATCH,🐟 漏网之鱼
