@@ -148,13 +148,13 @@ proxy-groups:
       - SaasSubSvr
     # filter: (?i)hk|hongkong|港
 
-  # === 延时切换FreeSubSvr ===
+  # === ⚡️ 延时切换FreeSubSvr ===
   - name: 🦋 智由星闪
     type: url-test
     use:
       - GitSubSvr
-      - FreeSubSvr
-    filter: (?i)us|sg|hk|united states|america|美
+      - SaasSubSvr
+    # filter: (?i)us|sg|hk|united states|america|美
     tolerance: 50
 
   - name: 🐟 漏网之鱼
