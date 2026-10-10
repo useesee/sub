@@ -119,7 +119,7 @@ proxy-groups:
     include-all-proxies: false
     type: select
     use:
-      #- FreeSubSvr
+      - FreeSubSvr
       - GitSubSvr
       - SaasSubSvr
     exclude-filter: "(?i)解锁|群|免费|网易|试用|过期|Tele"
@@ -134,7 +134,7 @@ proxy-groups:
   - name: 🚁 天机智由
     type: url-test
     use:
-      #- FreeSubSvr
+      - FreeSubSvr
       - GitSubSvr
       - SaasSubSvr
     filter: ^((?i)(?!解锁|群|免费|网易|试用|过期|Tele).)*$
