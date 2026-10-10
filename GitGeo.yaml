@@ -130,7 +130,7 @@ proxy-groups:
       - 🎡 负载均衡
       - DIRECT
 
-  # === 延时切换所有节点 ===
+  # === ⏱️ 延时切换所有节点 ===
   - name: 🚁 天机智由
     type: url-test
     use:
@@ -140,7 +140,7 @@ proxy-groups:
     filter: ^((?i)(?!解锁|群|免费|网易|试用|过期|Tele).)*$
     tolerance: 50
 
-  # === 故障切换所有节点 ===
+  # === ⚡️ 故障切换所有节点 ===
   - name: ✨ 扶光星汉
     type: fallback
     use:
@@ -210,7 +210,16 @@ proxy-groups:
 # ================= 规则订阅 ==================================
 rule-providers:
 
-  # 自定义直连
+  # 🎯 本地直连
+  LocalAreaNetwork:
+    type: http
+    format: text
+    behavior: classical
+    url: https://raw.githubusercontent.com/ACL4SSR/ACL4SSR/master/Clash/LocalAreaNetwork.list
+    path: ./providers/rules/LocalAreaNetwork.list
+    interval: 0
+
+  # 🎯 自定义直连
   cusDirect:
     type: http
     format: text
@@ -219,7 +228,7 @@ rule-providers:
     path: ./providers/rules/cusDirect.list
     interval: 0
 
-  # 自定义三方跳动
+  # 💠 自定义三方跳动
   cusOth:
     type: http
     format: text
@@ -233,11 +242,12 @@ rule-providers:
 rules:
 
   # 0️⃣0️⃣ 局域网（必须最前）=====================================
-  - IP-CIDR,127.0.0.0/8,🎯 全球直连
-  - IP-CIDR,10.0.0.0/8,🎯 全球直连,no-resolve
-  - IP-CIDR,172.16.0.0/12,🎯 全球直连,no-resolve
-  - IP-CIDR,192.168.0.0/16,🎯 全球直连,no-resolve
-  - IP-CIDR6,fc00::/7,🎯 全球直连,no-resolve
+  - RULE-SET,LocalAreaNetwork,🎯 全球直连
+  # - IP-CIDR,127.0.0.0/8,🎯 全球直连
+  # - IP-CIDR,10.0.0.0/8,🎯 全球直连,no-resolve
+  # - IP-CIDR,172.16.0.0/12,🎯 全球直连,no-resolve
+  # - IP-CIDR,192.168.0.0/16,🎯 全球直连,no-resolve
+  # - IP-CIDR6,fc00::/7,🎯 全球直连,no-resolve
 
   # 0️⃣ 自定义覆盖规则（最高优先级）===============================
   - RULE-SET,cusDirect,🎯 全球直连
