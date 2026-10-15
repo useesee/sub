@@ -140,7 +140,7 @@ proxy-groups:
     filter: ^((?i)(?!解锁|群|免费|网易|试用|过期|Tele).)*$
     tolerance: 50
 
-  # === ⚡️ 故障切换所有节点 ===
+  # === ⚡️ 故障切换节点 ===
   - name: ✨ 扶光星汉
     type: fallback
     use:
@@ -148,7 +148,7 @@ proxy-groups:
       - GitSubSvr
     # filter: (?i)hk|hongkong|港
 
-  # === ⏱️ 延时切换FreeSubSvr ===
+  # === ⏱️ 延时切换节点 ===
   - name: 🦋 智由星闪
     type: url-test
     use:
