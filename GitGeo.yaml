@@ -120,8 +120,8 @@ proxy-groups:
     type: select
     use:
       - FreeSubSvr
-      - GitSubSvr
       - SaasSubSvr
+      - GitSubSvr
     exclude-filter: "(?i)解锁|群|免费|网易|试用|过期|Tele"
     proxies:
       - 🚁 天机智由
@@ -135,8 +135,8 @@ proxy-groups:
     type: url-test
     use:
       - FreeSubSvr
-      - GitSubSvr
       - SaasSubSvr
+      - GitSubSvr
     filter: ^((?i)(?!解锁|群|免费|网易|试用|过期|Tele).)*$
     tolerance: 50
 
@@ -144,16 +144,16 @@ proxy-groups:
   - name: ✨ 扶光星汉
     type: fallback
     use:
-      - GitSubSvr
       - SaasSubSvr
+      - GitSubSvr
     # filter: (?i)hk|hongkong|港
 
   # === ⏱️ 延时切换FreeSubSvr ===
   - name: 🦋 智由星闪
     type: url-test
     use:
-      - GitSubSvr
       - SaasSubSvr
+      - GitSubSvr
     # filter: (?i)us|sg|hk|united states|america|美
     tolerance: 50
 
@@ -173,8 +173,8 @@ proxy-groups:
     type: select
     use:
       - FreeSubSvr
-      - GitSubSvr
       - SaasSubSvr
+      - GitSubSvr
     proxies:
       - 🔘 环球飞行
     exclude-filter: "(?i)解锁|群|免费|网易|试用|过期|Tele"
@@ -189,8 +189,8 @@ proxy-groups:
     type: load-balance
     use:
       - FreeSubSvr
-      - GitSubSvr
       - SaasSubSvr
+      - GitSubSvr
     exclude-filter: "(?i)解锁|群|免费|网易|试用|过期|Tele"
     strategy: consistent-hashing
 
@@ -254,13 +254,13 @@ rules:
   - RULE-SET,cusOth,💠 三方跳动
   # - RULE-SET,cusDomestic,🇨🇳 华夏之声
 
-  # 1️⃣ 广告拦截（最高优先级）====================================
+  # 1️⃣ 广告拦截（高优先级）====================================
   - GEOSITE,category-ads-all,🛑 全球拦截  # 🔥 全量广告库
   # # 补强（保留少量 rule-provider）
   # - RULE-SET,BanEasyList,🛑 全球拦截
   # - RULE-SET,BanEasyPrivacy,🛑 全球拦截
 
-  # 2️⃣ 精确规则（高优先级，必须在最前）===========================
+  # 2️⃣ 精确规则（高优先级，精确分流）===========================
   - GEOSITE,private,🎯 全球直连       # 域名层的“私有网络”
 
   - GEOSITE,category-ai-!cn,🤖 人工智能   # 🤖 AI 服务（精确优先）
@@ -291,7 +291,7 @@ rules:
   - IP-ASN,8075,🔘 环球飞行   # Microsoft Corporation      # ☁️ Microsoft Azure（Copilot / Office / Bing）
   # - IP-ASN,62041,🔘 环球飞行  # Telegram Messenger Inc.  # 📡 Telegram 官方
 
-  # 5️⃣ IP 兜底 ==============================================
+  # 5️⃣ IP 分流国内 ==============================================
   - GEOIP,CN,🎯 全球直连  # 🇨🇳 国内 IP
 
   # 6️⃣ 最终兜底===============================================
