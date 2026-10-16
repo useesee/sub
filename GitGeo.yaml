@@ -99,6 +99,7 @@ proxy-providers:
     url: "https://sub.jqwebs.cc/api/file/mihomo"
     path: ./providers/proxies/FreeSubSvr.yaml
     interval: 0
+    filter: "🇺🇸|🇩🇪"
     health-check:
       enable: true
       url: https://www.gstatic.com/generate_204
