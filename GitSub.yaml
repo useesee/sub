@@ -6,4 +6,4 @@ proxies:
   - {name: 🌐 SurgeSock07, server: 192.168.1.7, port: 6153, type: socks5}
   - {name: 🌐 SurgeSock08, server: 192.168.1.8, port: 6153, type: socks5}
   - {name: 🌐 SurgeSock68, server: 10.101.39.68, port: 6153, type: socks5}
-  - {name: 🌐 SurgeSock58, server: 10.101.39.58, port: 6153, type: socks5}
+  - {name: 🌐 ClashSock58, server: 10.101.39.58, port: 7890, type: socks5}
