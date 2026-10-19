@@ -70,8 +70,7 @@ dns:
 # ================= 代理订阅 ==================================
 proxy-providers:
 
-  # 自定义Github节点
-  GitSubSvr:
+  GitSubSvr:  # 自定义Github节点
     type: http
     url: "https://raw.githubusercontent.com/useesee/sub/main/GitSub.yaml"
     path: ./providers/proxies/GitSubSvr.yaml
@@ -81,8 +80,7 @@ proxy-providers:
       url: https://www.gstatic.com/generate_204
       interval: 300
 
-  # 互联网免费节点
-  SaasSubSvr:
+  SaasSubSvr:  # 互联网节点
     type: http
     # url: "https://sub.store/download/collection/aaas?target=V2Ray"
     url: "https://raw.githubusercontent.com/Pawdroid/Free-servers/main/sub"
@@ -93,8 +91,7 @@ proxy-providers:
       url: https://www.gstatic.com/generate_204
       interval: 300
 
-  # 金钱世界节点
-  FreeSubSvr:
+  FreeSubSvr:  # 金钱节点
     type: http
     url: "https://sub.jqwebs.cc/api/file/mihomo"
     path: ./providers/proxies/FreeSubSvr.yaml
@@ -106,13 +103,18 @@ proxy-providers:
       interval: 300
 
 
-# ================= 本地代理 ==================================
+# ================= 🌐 本地代理 ==================================
 proxies:
+  - {name: 🌐 ClashSock18, server: 192.168.1.18, port: 7890, type: socks5}
+  - {name: 🌐 ClashSock28, server: 192.168.1.28, port: 7890, type: socks5}
+  - {name: 🌐 SurgeSock05, server: 192.168.1.5, port: 6153, type: socks5}
+  - {name: 🌐 SurgeSock06, server: 192.168.1.6, port: 6153, type: socks5}
+  - {name: 🌐 SurgeSock07, server: 192.168.1.7, port: 6153, type: socks5}
+  - {name: 🌐 SurgeSock08, server: 192.168.1.8, port: 6153, type: socks5}
   - {name: 🌐 SurgeSock68, server: 10.101.39.68, port: 6153, type: socks5}
-  - {name: 🌐 SurgeSock18, server: 192.168.1.18, port: 6153, type: socks5}
+  - {name: 🌐 SurgeSock58, server: 10.101.39.58, port: 6153, type: socks5}
 
-
-# ================= 代理组 ====================================
+# ================= 🔘 代理组 ====================================
 proxy-groups:
 
   # === 规则选择 ===
@@ -211,8 +213,7 @@ proxy-groups:
 # ================= 规则订阅 ==================================
 rule-providers:
 
-  # 🎯 本地直连
-  LocalAreaNetwork:
+  LocalAreaNetwork:  # 🎯 本地直连
     type: http
     format: text
     behavior: classical
@@ -220,8 +221,7 @@ rule-providers:
     path: ./providers/rules/LocalAreaNetwork.list
     interval: 0
 
-  # 🎯 自定义直连
-  cusDirect:
+  cusDirect:  # 🎯 自定义直连
     type: http
     format: text
     behavior: classical
@@ -229,8 +229,7 @@ rule-providers:
     path: ./providers/rules/cusDirect.list
     interval: 0
 
-  # 💠 自定义三方跳动
-  cusOth:
+  cusOth:  # 💠 自定义三方跳动
     type: http
     format: text
     behavior: classical
