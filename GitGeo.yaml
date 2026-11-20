@@ -26,14 +26,14 @@ dns:
   nameserver:  # 工作 DNS（用DoH域名），用来解析国内网站域名
     - https://dns.alidns.com/dns-query
     - https://doh.pub/dns-query
-    - https://[2400:3200::1]/dns-query   # 阿里 IPv6 DNS
-    - https://[2402:4e00::]/dns-query    # 腾讯 IPv6 DNS
+    # - https://[2400:3200::1]/dns-query   # 阿里 IPv6 DNS
+    # - https://[2402:4e00::]/dns-query    # 腾讯 IPv6 DNS
 
   fallback:  # 🌍 国外纠错解析，当 nameserver 结果“可疑”时，启用 fallback（纠错 + 去污染 + 广告过滤）
     - https://cloudflare-dns.com/dns-query
     - https://dns.google/dns-query
-    - https://[2606:4700:4700::1111]/dns-query
-    - https://[2001:4860:4860::8888]/dns-query
+    # - https://[2606:4700:4700::1111]/dns-query
+    # - https://[2001:4860:4860::8888]/dns-query
 
   fallback-filter:  # 污染检测机制（CN 地址不重新解析）
     geoip: true
@@ -50,16 +50,16 @@ dns:
   proxy-server-nameserver:  # 代理服务器解析（避免污染）
     - https://cloudflare-dns.com/dns-query
     - https://dns.google/dns-query
-    - https://[2606:4700:4700::1111]/dns-query
-    - https://[2001:4860:4860::8888]/dns-query
+    # - https://[2606:4700:4700::1111]/dns-query
+    # - https://[2001:4860:4860::8888]/dns-query
 
   nameserver-policy:  # 国内强制走国内 DNS
     "geosite:category-ads-all": rcode://success  # 广告返回空结果
     "geosite:cn,private":                        # 国内解析直接用以下 DNS
       - https://dns.alidns.com/dns-query
       - https://doh.pub/dns-query
-      - https://[2400:3200::1]/dns-query
-      - https://[2402:4e00::]/dns-query
+      # - https://[2400:3200::1]/dns-query
+      # - https://[2402:4e00::]/dns-query
 
   fake-ip-filter:  # 🔧 稳定性白名单（这些域名不走 fake-ip，直接真实解析）
     - "localhost"
