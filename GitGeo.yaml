@@ -1,8 +1,14 @@
-mixed-port: 1688
+mixed-port: 1688  # HTTP(S) 和 SOCKS 代理混合端口
 allow-lan: false
 mode: rule
-log-level: info
-
+# geox-url:  #自定义 geodata url
+#   geoip: "https://fastly.jsdelivr.net/gh/MetaCubeX/meta-rules-dat@release/geoip.dat"
+#   geosite: "https://fastly.jsdelivr.net/gh/MetaCubeX/meta-rules-dat@release/geosite.dat"
+#   mmdb: "https://fastly.jsdelivr.net/gh/MetaCubeX/meta-rules-dat@release/geoip.metadb"
+# geo-auto-update: true # 是否自动更新 geodata
+# geo-update-interval: 24 # 更新间隔，单位：小时
+log-level: info  # 日志等级 silent/error/warning/info/debug
+ipv6: true # 开启 IPv6 总开关，关闭阻断所有 IPv6 链接和屏蔽 DNS 请求 AAAA 记录
 
 # ================= DNS（增强稳定性）===========================
 dns:
@@ -17,37 +23,41 @@ dns:
   enhanced-mode: fake-ip          # Fake-IP 模式（性能最优）
   fake-ip-range: 198.18.0.1/16    # Fake-IP 范围（官方推荐）
 
-  default-nameserver:  # 根 DNS（用IP），只用于解析 nameserver / fallback 里的“DoH 域名”
+  default-nameserver:  # 根 DNS（纯IP可加密），只用于解析 nameserver / fallback 里的“DoH 域名”
     - 223.5.5.5
     - 119.29.29.29
     - "2400:3200::1"
-    - "2402:4e00::"
+    - tls://223.5.5.5:853
 
-  nameserver:  # 工作 DNS（用DoH域名），用来解析国内网站域名
+  fake-ip-filter:  # 🔧 稳定性白名单（这些域名不走 fake-ip，直接真实解析）
+    - "localhost"
+    - "*.lan"
+    - "*.local"
+
+  nameserver:  # 主DNS(UDP、TCP、DoT、DoH、DoQ)，用来解析国内域名
     - https://dns.alidns.com/dns-query
     - https://doh.pub/dns-query
     # - https://[2400:3200::1]/dns-query   # 阿里 IPv6 DNS
     # - https://[2402:4e00::]/dns-query    # 腾讯 IPv6 DNS
 
-  fallback:  # 🌍 国外纠错解析，当 nameserver 结果“可疑”时，启用 fallback（纠错 + 去污染 + 广告过滤）
+  fallback:  # 当配置 fallback 时，会查询 nameserver 中返回的 IP 是否为 CN，当不是 CN，则使用 fallback 中的 DNS 查询结果
     - https://cloudflare-dns.com/dns-query
     - https://dns.google/dns-query
     # - https://[2606:4700:4700::1111]/dns-query
     # - https://[2001:4860:4860::8888]/dns-query
 
-  fallback-filter:  # 污染检测机制（CN 地址不重新解析）
+  fallback-filter:  # 配置 fallback 使用条件（CN 地址不重新解析）
     geoip: true
-    geoip-code: CN
-    ipcidr:  # 污染特征 IP（关键）
+    geoip-code: CN # 当 nameserver 解析出域名的 IP 查询 geoip 库为 CN 时， 使用 nameserver 中的 DNS 查询结果
+    ipcidr:        # 当 nameserver 解析出域名的 IP 匹配 ipcidr 时，使用 fallback 中的 DNS 查询结果
       - 240.0.0.0/4
       - 0.0.0.0/32
-    ipcidr6:
       - ::/128
       - ::1/128
       - fc00::/7        # ULA
       - fe80::/10       # link-local
 
-  proxy-server-nameserver:  # 代理服务器解析（避免污染）
+  proxy-server-nameserver:  # 代理服务器解析（如不填则遵循nameserver-policy、nameserver和fallback的配置）
     - https://cloudflare-dns.com/dns-query
     - https://dns.google/dns-query
     # - https://[2606:4700:4700::1111]/dns-query
@@ -60,11 +70,6 @@ dns:
       - https://doh.pub/dns-query
       # - https://[2400:3200::1]/dns-query
       # - https://[2402:4e00::]/dns-query
-
-  fake-ip-filter:  # 🔧 稳定性白名单（这些域名不走 fake-ip，直接真实解析）
-    - "localhost"
-    - "*.lan"
-    - "*.local"
 
 
 # ================= 代理订阅 ==================================
@@ -91,17 +96,6 @@ proxy-providers:
       url: https://www.gstatic.com/generate_204
       interval: 300
 
-  FreeSubSvr:  # 金钱节点
-    type: http
-    url: "https://sub.jqwebs.cc/api/file/mihomo"
-    path: ./providers/proxies/FreeSubSvr.yaml
-    interval: 0
-    filter: "🇺🇸|🇩🇪"
-    health-check:
-      enable: true
-      url: https://www.gstatic.com/generate_204
-      interval: 300
-
 
 # ================= 🌐 本地代理 ==================================
 proxies:
@@ -122,7 +116,6 @@ proxy-groups:
     include-all-proxies: false
     type: select
     use:
-      - FreeSubSvr
       - SaasSubSvr
       - GitSubSvr
     exclude-filter: "(?i)解锁|群|免费|网易|试用|过期|Tele"
@@ -137,7 +130,6 @@ proxy-groups:
   - name: 🚁 天机智由
     type: url-test
     use:
-      - FreeSubSvr
       - SaasSubSvr
       - GitSubSvr
     filter: ^((?i)(?!解锁|群|免费|网易|试用|过期|Tele).)*$
@@ -175,7 +167,6 @@ proxy-groups:
   - name: 🤖 人工智能
     type: select
     use:
-      - FreeSubSvr
       - SaasSubSvr
       - GitSubSvr
     proxies:
@@ -191,7 +182,6 @@ proxy-groups:
   - name: 🎡 负载均衡
     type: load-balance
     use:
-      - FreeSubSvr
       - SaasSubSvr
       - GitSubSvr
     exclude-filter: "(?i)解锁|群|免费|网易|试用|过期|Tele"
